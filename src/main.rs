@@ -28,10 +28,12 @@ fn get_args(v: Vec<&str>) -> Vec<&str> {
 }
 
 fn run_command(cmd: String, args: Vec<&str>) {
-    Command::new(cmd)
+    let mut child = Command::new(cmd)
         .args(args)
         .spawn()
         .expect("failed to execute process");
+
+    child.wait().expect("failed to wait on child");
 }
 
 fn main() {
