@@ -31,8 +31,9 @@ pub fn get_args(tokens: Vec<&str>) -> Vec<&str> {
 pub fn execute(cmd: &str, args: Vec<&str>) {
     let status = Command::new(cmd)
         .args(args)
-        .status()
-        .expect("failed to execute process");
+        .status();
 
-    assert!(status.success());
+    if status.is_err() {
+        println!("{}: command not found", cmd)
+    }
 }
