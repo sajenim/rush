@@ -21,7 +21,12 @@ fn main() {
         let cmd = core::get_command(tokens.clone());
         let args = core::get_args(tokens);
 
-        // Execute command and argument.
-        core::execute(cmd, args);
+        // Execute inbuilt commands if supplied, otherwise execute command and argument.
+        match cmd {
+            "cd" => inbuilt::cd(args),
+            "help" => inbuilt::help(),
+            "exit" => inbuilt::exit(),
+            _ => core::execute(cmd, args),
+        }
     }
 }
