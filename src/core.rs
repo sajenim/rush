@@ -16,8 +16,8 @@ pub fn get_input() -> String {
     input
 }
 
-pub fn parse_input(s: &str) -> Vec<&str> {
-    s.split_whitespace().collect()
+pub fn parse_input(s: &str) -> Vec<String> {
+    shlex::split(s).unwrap()
 }
 
 pub fn get_command(tokens: Vec<&str>) -> &str {
