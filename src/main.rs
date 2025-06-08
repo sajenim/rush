@@ -18,15 +18,15 @@ fn main() {
         }
 
         // Convert our tokens to our command and arguments.
-        let cmd = core::get_command(tokens.clone());
-        let args = core::get_args(tokens);
+        let cmd = core::get_command(&tokens);
+        let args = core::get_args(&tokens);
 
         // Execute inbuilt commands if supplied, otherwise execute command and argument.
-        match cmd {
-            "cd" => inbuilt::cd(args),
+        match cmd.as_str() {
+            "cd" => inbuilt::cd(&args),
             "help" => inbuilt::help(),
             "exit" => inbuilt::exit(),
-            _ => core::execute(cmd, args),
+            _ => core::execute(&cmd, &args),
         }
     }
 }

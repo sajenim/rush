@@ -1,6 +1,6 @@
 use std::env;
 
-pub fn cd(args: Vec<&str>) {
+pub fn cd(args: &[String]) {
     let path = args[0].to_string();
     assert!(env::set_current_dir(&path).is_ok());
 }

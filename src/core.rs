@@ -20,15 +20,15 @@ pub fn parse_input(s: &str) -> Vec<String> {
     shlex::split(s).unwrap()
 }
 
-pub fn get_command(tokens: Vec<&str>) -> &str {
-    tokens[0]
+pub fn get_command(tokens: &[String]) -> String {
+    tokens[0].clone()
 }
 
-pub fn get_args(tokens: Vec<&str>) -> Vec<&str> {
+pub fn get_args(tokens: &[String]) -> Vec<String> {
     tokens[1..].to_vec()
 }
 
-pub fn execute(cmd: &str, args: Vec<&str>) {
+pub fn execute(cmd: &str, args: &[String]) {
     let status = Command::new(cmd)
         .args(args)
         .status();
