@@ -1,5 +1,8 @@
 mod core;
+use crate::core::*;
+
 mod inbuilt;
+use crate::inbuilt::*;
 
 use mlua::prelude::*;
 
@@ -29,36 +32,38 @@ fn main() {
     // Read, Evaluate, Print and Loop.
     loop {
         // Display the prompt for the user.
-        core::display_prompt();
+        display_prompt();
 
         // Get the users input.
-        let input = core::get_input();
+        let input = get_input();
 
-        // Parse the users input and create tokens.
-        let tokens = core::parse_input(&input);
+        // Tokenize the user input.
+        let tokens = tokenize(&input);
 
-        // If the user enters empty input don't execute the command.
+        // If the user enters empty input skip to the next iteration.
         if tokens.is_empty() {
             continue;
         }
 
         // Convert tokens into command and arguments.
-        let (mut cmd, mut args) = (core::get_command(&tokens), core::get_args(&tokens));
+        let (mut cmd, mut args) = (get_command(&tokens), get_args(&tokens));
 
-        // Check our configuration for aliases, convert alias to corresponding command.
+        // Check our configuration for aliases, convert alias to corresponding command and
+        // arguments.
         if let Some(alias_cmd) = resolve_alias(&config, &cmd) {
             // Tokenize the alias command and update cmd and args accordingly.
-            let alias_tokens = core::parse_input(&alias_cmd);
-            cmd = core::get_command(&alias_tokens);
-            args.extend(core::get_args(&alias_tokens));
+            let alias_tokens = tokenize(&alias_cmd);
+            cmd = get_command(&alias_tokens);
+            args.extend(get_args(&alias_tokens));
         }
 
-        // Execute inbuilt commands if supplied, otherwise execute command and argument.
+        // Execute inbuilt command if match found, otherwise execute external command with 
+        // arguments.
         match cmd.as_str() {
-            "cd" => inbuilt::cd(&args),
-            "help" => inbuilt::help(),
-            "exit" => inbuilt::exit(),
-            _ => core::execute(&cmd, &args),
+            "cd" => cd(&args),
+            "help" => help(),
+            "exit" => exit(),
+            _ => execute(&cmd, &args),
         }
     }
 }

@@ -16,7 +16,7 @@ pub fn get_input() -> String {
     input
 }
 
-pub fn parse_input(s: &str) -> Vec<String> {
+pub fn tokenize(s: &str) -> Vec<String> {
     shlex::split(s).unwrap()
 }
 
