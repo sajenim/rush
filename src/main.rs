@@ -11,7 +11,7 @@ fn resolve_alias(config: &mlua::Table, cmd: &str) -> Option<String> {
     config
         .get::<mlua::Table>("shellAliases")
         .ok()
-        .and_then(|aliases| aliases.get::<String>(cmd).ok())
+        .and_then(|aliases| aliases.get(cmd).ok())
 }
 
 fn main() {
