@@ -1,7 +1,7 @@
 -- This table will hold the configuration.
 local config = {}
 
-config.aliases = {
+config.shellAliases = {
 	ls = "ls --color=auto",
 }
 

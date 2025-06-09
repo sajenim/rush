@@ -9,7 +9,7 @@ use mlua::prelude::*;
 // Helper function for resolving aliases.
 fn resolve_alias(config: &mlua::Table, cmd: &str) -> Option<String> {
     config
-        .get::<mlua::Table>("aliases")
+        .get::<mlua::Table>("shellAliases")
         .ok()
         .and_then(|aliases| aliases.get::<String>(cmd).ok())
 }

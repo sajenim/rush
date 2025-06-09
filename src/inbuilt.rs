@@ -16,7 +16,7 @@ pub fn help() {
 
     println!();
     println!("Customization Options:");
-    println!("  aliases       - Define custom aliases for commands");
+    println!("  shellAliases  - Define custom aliases for commands");
 
     println!();
     println!("Note: This is a basic implementation. More features and options will be added in future versions.");
