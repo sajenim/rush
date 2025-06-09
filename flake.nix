@@ -18,7 +18,10 @@
       in
       {
         devShells.default = pkgs.mkShell rec {
-          nativeBuildInputs = [ pkgs.pkg-config ];
+          nativeBuildInputs = with pkgs; [ 
+            pkg-config 
+            lua54Packages.lua
+          ];
           buildInputs = with pkgs; [
             clang
             llvmPackages.bintools
