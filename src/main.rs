@@ -1,8 +1,8 @@
 mod core;
-use crate::core::*;
+use core::*;
 
 mod inbuilt;
-use crate::inbuilt::*;
+use inbuilt::*;
 
 use mlua::prelude::*;
 
@@ -57,7 +57,7 @@ fn main() {
             args.extend(get_args(&alias_tokens));
         }
 
-        // Execute inbuilt command if match found, otherwise execute external command with 
+        // Execute inbuilt command if match found, otherwise execute external command with
         // arguments.
         match cmd.as_str() {
             "cd" => cd(&args),
