@@ -1,9 +1,11 @@
 use std::io::{self, Write};
 use std::process::Command;
 
-pub fn display_prompt() {
-    print!("> ");
-    io::stdout().flush().expect("unable to flush buffer");
+pub fn display_prompt(ps1: &str) {
+    print!("{}", ps1);
+    io::stdout()
+        .flush()
+        .expect("unable to flush buffer");
 }
 
 pub fn get_input() -> String {

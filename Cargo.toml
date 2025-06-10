@@ -6,3 +6,5 @@ edition = "2024"
 [dependencies]
 shlex = "1.3.0"
 mlua = { version = "0.10.5", features = ["lua54"] }
+shellexpand = "3.1.1"
+whoami = "1.6.0"

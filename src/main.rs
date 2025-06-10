@@ -5,6 +5,8 @@ mod inbuilt;
 use inbuilt::*;
 
 use mlua::prelude::*;
+use std::env;
+use whoami::{username, devicename};
 
 // Helper function for resolving aliases.
 fn resolve_alias(config: &mlua::Table, cmd: &str) -> Option<String> {
@@ -12,6 +14,45 @@ fn resolve_alias(config: &mlua::Table, cmd: &str) -> Option<String> {
         .get::<mlua::Table>("shellAliases")
         .ok()
         .and_then(|aliases| aliases.get(cmd).ok())
+}
+
+// Return prompt from configuration file with expansion performed.
+// Otherwise return default prompt.
+fn resolve_prompt(config: &mlua::Table) -> String {
+    let default_prompt = "[${user}@${host}:${cwd}]$".to_string();
+
+    let prompt = config
+        .get::<String>("prompt")
+        .unwrap_or(default_prompt)
+        + " ";
+
+    shellexpand::env_with_context_no_errors(&prompt, context).to_string()
+}
+
+// Format current working directory.
+fn fmt_cwd() -> String {
+    let home = env::var("HOME").unwrap_or_default();
+    let cwd = env::current_dir()
+        .ok()
+        .and_then(|p| p.to_str().map(String::from))
+        .unwrap_or_default();
+
+    // Replace $HOME with ~.
+    if cwd.starts_with(&home) {
+        cwd.replacen(&home, "~", 1)
+    } else {
+        cwd
+    }
+}
+
+// Context for shell expansion.
+fn context(s: &str) -> Option<String> {
+    match s {
+        "user" => Some(username()),
+        "host" => Some(devicename()),
+        "cwd" => Some(fmt_cwd()),
+        _ => None,
+    }
 }
 
 fn main() {
@@ -31,8 +72,10 @@ fn main() {
 
     // Read, Evaluate, Print and Loop.
     loop {
+        // Update prompt string.
+        let prompt = resolve_prompt(&config);
         // Display the prompt for the user.
-        display_prompt();
+        display_prompt(&prompt);
 
         // Get the users input.
         let input = get_input();
