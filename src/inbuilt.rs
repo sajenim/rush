@@ -1,8 +1,17 @@
 // Provides Built-In Shell Functions.
 
 pub fn cd(args: &[String]) {
-    let path = args[0].to_string();
-    assert!(std::env::set_current_dir(&path).is_ok());
+    let path = if args.is_empty() {
+        std::env::var("HOME").unwrap_or_default()
+    } else {
+        shellexpand::tilde(&args[0]).to_string()
+    };
+
+    let status = std::env::set_current_dir(&path);
+
+    if status.is_err() {
+        println!("cd: no such file or directory: {}", &path);
+    }
 }
 
 pub fn help() {
