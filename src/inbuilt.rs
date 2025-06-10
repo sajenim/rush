@@ -1,8 +1,8 @@
-use std::env;
+// Provides Built-In Shell Functions.
 
 pub fn cd(args: &[String]) {
     let path = args[0].to_string();
-    assert!(env::set_current_dir(&path).is_ok());
+    assert!(std::env::set_current_dir(&path).is_ok());
 }
 
 pub fn help() {

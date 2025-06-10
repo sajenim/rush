@@ -5,8 +5,6 @@ mod inbuilt;
 use inbuilt::*;
 
 use mlua::prelude::*;
-use std::env;
-use whoami::{username, devicename};
 
 // Helper function for resolving aliases.
 fn resolve_alias(config: &mlua::Table, cmd: &str) -> Option<String> {
@@ -31,8 +29,8 @@ fn resolve_prompt(config: &mlua::Table) -> String {
 
 // Format current working directory.
 fn fmt_cwd() -> String {
-    let home = env::var("HOME").unwrap_or_default();
-    let cwd = env::current_dir()
+    let home = std::env::var("HOME").unwrap_or_default();
+    let cwd = std::env::current_dir()
         .ok()
         .and_then(|p| p.to_str().map(String::from))
         .unwrap_or_default();
@@ -48,8 +46,8 @@ fn fmt_cwd() -> String {
 // Context for shell expansion.
 fn context(s: &str) -> Option<String> {
     match s {
-        "user" => Some(username()),
-        "host" => Some(devicename()),
+        "user" => Some(whoami::username()),
+        "host" => Some(whoami::devicename()),
         "cwd" => Some(fmt_cwd()),
         _ => None,
     }
