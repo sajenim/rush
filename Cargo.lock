@@ -246,7 +246,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rush"
+name = "rshx"
 version = "0.1.0"
 dependencies = [
  "mlua",

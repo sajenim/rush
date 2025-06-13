@@ -15,7 +15,7 @@ pub fn cd(args: &[String]) {
 }
 
 pub fn help() {
-    println!("RuSH v0.1.0");
+    println!("rshx v0.1.0");
     println!("---------------------");
     println!("Available Commands:");
     println!("  cd            - Change directory");
